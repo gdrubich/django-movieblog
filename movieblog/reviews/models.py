@@ -7,17 +7,20 @@ from movies.models import Movie
 
 
 class Review(models.Model):
-    user = models.ForeignKey(User)
-    movie = models.ForeignKey('movies.Movie')
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
+
     STAR_RATINGS = (
         (1, 'One Star'),
         (2, 'Two Star'),
         (3, 'Three Star'),
         (4, 'Four Star'),
-        (5, 'Five Star'))
+        (5, 'Five Star')
+    )
+
+    user = models.ForeignKey(User)
+    movie = models.ForeignKey('movies.Movie', related_name='reviews')
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(choices=STAR_RATINGS)
 
     def add_review(self, movie_id):
@@ -32,7 +35,6 @@ class Review(models.Model):
         new_review.save()
 
     def edit_review(self):
-
         pass
 
     def delete_review(self, movie_id):

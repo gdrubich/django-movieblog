@@ -1,0 +1,20 @@
+<h1>Pelicula</h1>
+{{ movie }}
+<hr>
+
+<h2>Reviews</h2>
+{% for review in movie.reviews.all %}
+	<p>{{ review.title }}</p>
+{% endfor %}
+
+
+
+{% if user.is_authenticated %}
+	<form method='POST'>
+		{% csrf_token %}
+		{{ review_form.as_p }}
+		<input type="submit" name="Guardar">
+	</form>
+{% else %}
+	<p>Ingresa para dejar tu review</p>
+{% endif %}

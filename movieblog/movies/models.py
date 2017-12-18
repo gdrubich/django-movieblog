@@ -7,9 +7,9 @@ from django_countries.fields import CountryField
 
 # A function that returns a created path to a movie cover
 
+
 def cover_upload_path(instance, filename):
     return '/'.join(['cover', instance.category.name, filename])
-
 
 
 class Movie(models.Model):
@@ -22,7 +22,8 @@ class Movie(models.Model):
     country = CountryField()
     cover_img = models.ImageField(
         upload_to=cover_upload_path, default='/covers/default_cover.jpeg')
-    def __unicode__ (self):
+
+    def __unicode__(self):
         return "%s" % (self.title)
 
 
@@ -30,6 +31,7 @@ class Person(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     country = CountryField()
+
     def __unicode__(self):
         return "%s, %s" % (self.first_name, self.last_name)
 
@@ -48,8 +50,7 @@ class Actor(Person):
 class Category(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField()
+
     def __unicode__(self):
         return "%s" % (self.name)
-
-
 

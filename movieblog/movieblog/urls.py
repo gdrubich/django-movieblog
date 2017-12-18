@@ -21,7 +21,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'', include('movies.urls'), name='index'),
+    url(r'', include('movies.urls', namespace='movies')),
     url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
     url(r'bootstrap/', TemplateView.as_view(template_name='bootstrap/example.html'))
 ]
