@@ -49,18 +49,21 @@ def movie_detail(request, movie_pk):
 @user_passes_test(lambda u: u.is_staff, login_url='/login/')
 def movie_add(request):
     error = ''
-    movie_form = MovieForm(request.POST)
-    if movie_form.is_valid():
-        # Si el form es valido guardar la data en una variable sin pegarle a la
-        # base de datos, para agregar info que esta en el request
-        new_movie = movie_form.save(commit=False)
-        # Agregar user desde request
-        new_movie.user = request.user
-        # Guardar en base de datos
-        new_movie.save()
-        return redirect(reverse('movies:index'))
+    if request.method == 'POST':
+        movie_form = MovieForm(request.POST)
+        if movie_form.is_valid():
+            # Si el form es valido guardar la data en una variable sin pegarle a la
+            # base de datos, para agregar info que esta en el request
+            new_movie = movie_form.save(commit=False)
+            # Agregar user desde request
+            new_movie.user = request.user
+            # Guardar en base de datos
+            new_movie.save()
+            return redirect(reverse('movies:index'))
+        else:
+            error = 'El formulario no es valido'
     else:
-        error = 'El formulario no es valido'
+        movie_form = MovieForm()
     context = {'movie_form': movie_form, 'error': error}
     return render(request, 'movie_add.html', context)
 
