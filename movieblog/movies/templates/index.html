@@ -12,7 +12,10 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-4">
+            <p><a href="{% url 'movies:add' %}">Agregar pelicula</a></p>
+        </div>
+        <div class="col-md-4">
             {% for movie in movies %}
               <p><a href="{% url 'movies:detail' movie.pk %}">{{ movie.release_date }} | {{ movie }}</a></p>
             {% endfor %}

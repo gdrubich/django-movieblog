@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
+from movies import views
 
 
 
@@ -23,5 +24,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('movies.urls', namespace='movies')),
     url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
-    url(r'bootstrap/', TemplateView.as_view(template_name='bootstrap/example.html'))
+    url(r'bootstrap/', TemplateView.as_view(template_name='bootstrap/example.html')),
+    url(r'^login/$', views.login, name='login'),
 ]

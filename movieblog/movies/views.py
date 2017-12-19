@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
+from movies.forms import MovieForm
 from reviews.forms import ReviewForm
 from .models import Movie, Category
 
@@ -15,6 +16,10 @@ def index(request):
         'categories': Category.objects.all()
     }
     return render(request, 'index.html', context)
+
+
+def login(request):
+    return render(request, 'login.html')
 
 
 def movie_detail(request, movie_pk):
@@ -43,4 +48,19 @@ def movie_detail(request, movie_pk):
 @login_required()
 @user_passes_test(lambda u: u.is_staff, login_url='/login/')
 def movie_add(request):
-    pass
+    error = ''
+    movie_form = MovieForm(request.POST)
+    if movie_form.is_valid():
+        # Si el form es valido guardar la data en una variable sin pegarle a la
+        # base de datos, para agregar info que esta en el request
+        new_movie = movie_form.save(commit=False)
+        # Agregar user desde request
+        new_movie.user = request.user
+        # Guardar en base de datos
+        new_movie.save()
+        return redirect(reverse('movies:index'))
+    else:
+        error = 'El formulario no es valido'
+    context = {'movie_form': movie_form, 'error': error}
+    return render(request, 'movie_add.html', context)
+

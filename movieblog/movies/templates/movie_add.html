@@ -1,0 +1,12 @@
+<h1>Cargar nueva pelicula:</h1>
+
+{% if user.is_staff %}
+	<form method='POST'>
+		{% csrf_token %}
+		{{ movie_form.as_p }}
+		<input type="submit" name="Guardar">
+	</form>
+{% else %}
+	<p>Debes estar logueado en una cuenta tipo staff para cargar peliculas </p><a href = "{% url 'login' %}">Login</a>
+
+{% endif %}

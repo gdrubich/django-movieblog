@@ -21,7 +21,7 @@ class Movie(models.Model):
     actor = models.ManyToManyField('movies.Actor')
     country = CountryField()
     cover_img = models.ImageField(
-        upload_to=cover_upload_path, default='/covers/default_cover.jpeg')
+        upload_to=cover_upload_path, default='/covers/default_cover.jpeg', null=True)
 
     def __unicode__(self):
         return "%s" % (self.title)
