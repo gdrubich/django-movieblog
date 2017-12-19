@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
@@ -37,3 +38,9 @@ def movie_detail(request, movie_pk):
     review_form = ReviewForm()
     context = {'movie': movie, 'review_form': review_form, 'error': error}
     return render(request, 'movie_detail.html', context)
+
+
+@login_required()
+@user_passes_test(lambda u: u.is_staff, login_url='/login/')
+def movie_add(request):
+    pass
