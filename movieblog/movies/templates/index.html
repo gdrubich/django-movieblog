@@ -12,6 +12,20 @@
   <body>
     <div class="container">
       <div class="row">
+        <p> WELCOME! </p>
+      </div>
+      <div class="row">
+        <div class="col">
+          {% if user.is_authenticated %}
+          <p><a href="{% url 'account_logout' %}">Logout</a></p>
+          {% else %}
+          <p><a href="{% url 'account_login' %}">Login</a> or <a href="{% url 'account_signup' %}">Sign up</a> if you don't have an account!</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
         <div class="col-md-4">
             <p><a href="{% url 'movies:add' %}">Agregar pelicula</a></p>
         </div>

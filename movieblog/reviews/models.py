@@ -22,20 +22,3 @@ class Review(models.Model):
     description = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(choices=STAR_RATINGS)
-
-    def add_review(self, movie_id):
-        movie = Movie.objects.get(pk=movie_id)
-        new_review = Review.objects.create(
-            user=self.user,
-            movie=movie,
-            title=self.title,
-            description=self.description,
-            date=self.date,
-            rating=self.rating)
-        new_review.save()
-
-    def edit_review(self):
-        pass
-
-    def delete_review(self, movie_id):
-        pass

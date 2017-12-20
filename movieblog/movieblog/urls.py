@@ -23,7 +23,8 @@ from movies import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('movies.urls', namespace='movies')),
-    url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
+    url(r'^ratings/', include('star_ratings.urls',
+        namespace='ratings', app_name='ratings')),
     url(r'bootstrap/', TemplateView.as_view(template_name='bootstrap/example.html')),
-    url(r'^login/$', views.login, name='login'),
+    url(r'^accounts/', include('allauth.urls')),
 ]

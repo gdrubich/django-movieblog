@@ -37,10 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'bootstrap3',
     'movies',
     'reviews',
     'star_ratings',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.twitter',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +88,69 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+#AUTHENTICATION BACKENDS
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
+ACCOUNT_ADAPTER = ("allauth.account.adapter.DefaultAccountAdapter")
+
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = None
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+
+ACCOUNT_EMAIL_VERIFICATION = None
+
+# ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Site]"
+
+LOGIN_REDIRECT_URL = "/"
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
+
+ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN = 180
+
+ACCOUNT_EMAIL_MAX_LENGTH = 254
+
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+
+ACCOUNT_PRESERVE_USERNAME_CASING = False
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'es_AR',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.5',
     }
 }
 

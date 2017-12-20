@@ -66,4 +66,3 @@ def movie_add(request):
         movie_form = MovieForm()
     context = {'movie_form': movie_form, 'error': error}
     return render(request, 'movie_add.html', context)
-

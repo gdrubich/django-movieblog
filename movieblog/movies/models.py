@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
+from django.db.models import Avg
+
 
 # A function that returns a created path to a movie cover
 
@@ -25,6 +27,11 @@ class Movie(models.Model):
 
     def __unicode__(self):
         return "%s" % (self.title)
+
+    def avg_rating(self):
+        reviews = self.reviews
+        avg = reviews.objects.all().aggregate(Avg('rating'))
+        return avg
 
 
 class Person(models.Model):
@@ -53,4 +60,3 @@ class Category(models.Model):
 
     def __unicode__(self):
         return "%s" % (self.name)
-
