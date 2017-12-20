@@ -1,0 +1,25 @@
+Index
+	- Listar las ultimas 9 peliculas agregadas
+	- Que muestre la foto, titulo, descripcion (140 cacacteres) y categoria
+
+
+Movies List
+	- Agregar vista de lista de pelicuas paginada de a 10 que muestre el listado en un costado mas grande y en un aside las categorias listadas. Tiene que tener un boton en un menu para agregar pelicula.
+	- Implementar filtro por categoria
+
+
+Movie Detail
+	- Agregar el base.html y mejorar el html, que se vea toda la info de la pelicula.
+	- En una seccion listas peliculas de la misma categoria (unas 4 o 5)
+
+Base.html
+	- Agregar link de la lista de peliculas en Movies
+
+
+Search
+	- Implementar busqueda por texto completo de peliculas
+
+
+Reviews
+	- Agregar una opcion solo para usuarios staff de poder marcar una review como "para moderar", es decir, si ve que alguien puso un texto ofensivo o fuera de lugar, mediante ese boton pasar la review a un estado "para moderar" o similar (hay que agregar al modelo un campo de estado) haciendo que esa review no aparezca mas en el sitio hasta que se vuelva a cambiar a un estado "aceptado o similar" (usar ajax para hacer esto)
+
