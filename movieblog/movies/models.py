@@ -29,9 +29,7 @@ class Movie(models.Model):
         return "%s" % (self.title)
 
     def avg_rating(self):
-        reviews = self.reviews
-        avg = reviews.objects.all().aggregate(Avg('rating'))
-        return avg
+        return self.reviews.all().aggregate(Avg('rating')).get('rating__avg', None)
 
 
 class Person(models.Model):

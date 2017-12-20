@@ -41,7 +41,11 @@ def movie_detail(request, movie_pk):
             error = 'Debes estar logeado para dejar una review'
 
     review_form = ReviewForm()
-    context = {'movie': movie, 'review_form': review_form, 'error': error}
+
+    avg_rating = Movie.avg_rating(movie)
+
+    context = {'movie': movie, 'review_form': review_form,
+               'error': error, 'avg_rating': avg_rating}
     return render(request, 'movie_detail.html', context)
 
 

@@ -1,7 +1,7 @@
 <h1>Pelicula</h1>
 {{ movie }}
 <hr>
-
+<p> AVERAGE REVIEW RATING: {{ avg_rating }} </p>
 <h2>Reviews</h2>
 {% for review in movie.reviews.all %}
 	<p>{{ review.title }}</p>
