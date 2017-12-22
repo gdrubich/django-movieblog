@@ -4,16 +4,17 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from movies.forms import MovieForm
 from reviews.forms import ReviewForm
 from .models import Movie, Category
 
 
 def index(request):
+    latest_movies = Movie.objects.all().order_by('-release_date')[:10]
     context = {
-        'movies': Movie.objects.all(),
-        'categories': Category.objects.all()
+        'categories': Category.objects.all(),
+        'latest_movies': latest_movies,
     }
     return render(request, 'index.html', context)
 
@@ -21,7 +22,8 @@ def index(request):
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     error = ''
-
+    recommendations = Movie.objects.filter(
+        category=movie.category).exclude(pk=movie_pk)
     if request.method == 'POST':
         review_form = ReviewForm(request.POST)
 
@@ -41,7 +43,7 @@ def movie_detail(request, movie_pk):
     avg_rating = Movie.avg_rating(movie)
 
     context = {'movie': movie, 'review_form': review_form,
-               'error': error, 'avg_rating': avg_rating}
+               'error': error, 'avg_rating': avg_rating, 'recommendations': recommendations}
     return render(request, 'movie_detail.html', context)
 
 
@@ -66,3 +68,25 @@ def movie_add(request):
         movie_form = MovieForm()
     context = {'movie_form': movie_form, 'error': error}
     return render(request, 'movie_add.html', context)
+
+
+def movie_list(request):
+    category = request.GET.get('category')
+    movies = Movie.objects.all()
+    if category:
+        movies = movies.filter(category__pk=category)
+    categories = Category.objects.all()
+    paginator = Paginator(movies, 2)
+    page = request.GET.get('page')
+    try:
+        movie_page = paginator.page(page)
+    except PageNotAnInteger:
+        movie_page = paginator.page(1)
+    except EmptyPage:
+        movie_page = paginator.page(paginator.num_pages)
+    context = {
+        'movies': movies,
+        'categories': categories,
+        'movie_page': movie_page,
+    }
+    return render(request, 'movie_list.html', context)

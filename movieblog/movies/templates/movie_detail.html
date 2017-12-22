@@ -1,20 +1,55 @@
-<h1>Pelicula</h1>
-{{ movie }}
-<hr>
-<p> AVERAGE REVIEW RATING: {{ avg_rating }} </p>
-<h2>Reviews</h2>
-{% for review in movie.reviews.all %}
-	<p>{{ review.title }}</p>
-{% endfor %}
-
-
-
-{% if user.is_authenticated %}
-	<form method='POST'>
-		{% csrf_token %}
-		{{ review_form.as_p }}
-		<input type="submit" name="Guardar">
-	</form>
-{% else %}
-	<p>Ingresa para dejar tu review</p>
-{% endif %}
+{% extends 'base.html' %}
+{% block content %}
+	<div class="container" style='padding-top: 4rem;'>
+		<div class="row no-gutter">
+			<div class="col-8">
+				<div class="page-header">
+					<p class="sanserif"><h1>{{ movie }}</h1>
+					<small>Average Review Rating: {{ avg_rating }}</small>
+					</p>
+					<p>Resume: {{ movie.description }}</p>
+					<p>Category: {{ movie.category }}</p>
+					<p>Director: {{ movie.director }}</p>
+				</div>
+			</div>
+			<div class="col-4">
+				<img src="{{ movie.cover_img.url }}">
+			</div>
+		</div>
+		<div class="row no-gutter">
+			<div class="col-12">
+				<div class="page-header">
+					<h3>Reviews</h3>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				{% for review in movie.reviews.all %}
+					<div class="row">
+						<small>"{{ review.title }}" by {{ review.user }}</small>
+					</div>
+				{% endfor %}
+			</div>
+			<div class="col">
+				{% if user.is_authenticated %}
+					<form method='POST'>
+						{% csrf_token %}
+						{{ review_form.as_p }}
+						<input type="submit" name="Guardar">
+					</form>
+				{% else %}
+					<a href="{% url 'account_login' %}"><h4>Ingresa para dejar tu review</h4></a>
+				{% endif %}
+			</div>
+		</div>
+		<div class="row">
+			{% for movie1 in recommendations %}
+				<div class="col">
+					<h5>{{ movie1.title }}</h5>
+					<img src="{{ movie1.cover_img.url }}">
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

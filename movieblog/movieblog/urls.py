@@ -27,4 +27,5 @@ urlpatterns = [
         namespace='ratings', app_name='ratings')),
     url(r'bootstrap/', TemplateView.as_view(template_name='bootstrap/example.html')),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^movies/', views.movie_list, name='movies_list')
 ]

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container" style='padding-top: 6rem;'>
+	<div class="row">
+		<div class="col-10">
+			<div class="row">
+			{% for movie in movie_page %}
+				<div class="card-center">
+			         <img src="{{ movie.cover_img.url }}" alt="Card image cap">
+			         <div class="card-block">
+			            <h5 class="card-title">{{ movie.title }}</h5>
+			            <h6 class="car-subtitle">{{ movie.category }}</h6>
+			            <p class="card-text">{{ movie.description|truncatechars:140 }}</p>
+			            <a href="{% url 'movies:detail' movie.pk %}" class="btn btn-primary">See detail</a>
+			         </div>
+			     </div>
+			{% endfor %}
+			</div>
+		</div>
+		<div class="col-2">
+			<div class="list-group">
+				{% for category in categories %}
+				   <a href="?category={{ category.pk }}" class="list-group-item list-group-item-action">{{ category.name }}</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if movie_page.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ movie_page.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ movie_page.number }} of {{ movie_page.paginator.num_pages }}.
+        </span>
+
+        {% if movie_page.has_next %}
+            <a href="?page={{ movie_page.next_page_number }}">next</a>
+            <a href="?page={{ movie_page.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+{% endblock %}

@@ -17,7 +17,7 @@ def cover_upload_path(instance, filename):
 class Movie(models.Model):
     title = models.CharField(max_length=100)
     category = models.ForeignKey('movies.Category')
-    description = models.TextField()
+    description = models.TextField(max_length=140)
     release_date = models.DateField(default=timezone.now)
     director = models.ForeignKey('movies.Director')
     actor = models.ManyToManyField('movies.Actor')
@@ -30,6 +30,9 @@ class Movie(models.Model):
 
     def avg_rating(self):
         return self.reviews.all().aggregate(Avg('rating')).get('rating__avg', None)
+
+    class Meta:
+        ordering = ['-release_date']
 
 
 class Person(models.Model):
