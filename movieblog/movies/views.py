@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from movies.forms import MovieForm
 from reviews.forms import ReviewForm
@@ -90,3 +91,21 @@ def movie_list(request):
         'movie_page': movie_page,
     }
     return render(request, 'movie_list.html', context)
+
+
+def search(request):
+    query = request.GET.get('q')
+    results = Movie.objects.filter(
+        Q(title__icontains=query))
+    paginator = Paginator(results, 2)
+    page = request.GET.get('page')
+    try:
+        movie_page = paginator.page(page)
+    except PageNotAnInteger:
+        movie_page = paginator.page(1)
+    except EmptyPage:
+        movie_page = paginator.page(paginator.num_pages)
+    context = {
+        'results': results
+    }
+    return render(request, 'search.html', context)

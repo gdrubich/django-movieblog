@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'haystack',
     'bootstrap3',
     'movies',
     'reviews',
@@ -90,7 +91,7 @@ DATABASES = {
     }
 }
 
-#AUTHENTICATION BACKENDS
+# AUTHENTICATION BACKENDS
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -153,6 +154,15 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+
+# HAYSTACK CONFIGURATIONS
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
