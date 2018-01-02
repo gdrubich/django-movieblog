@@ -9,6 +9,6 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^movies/(?P<movie_pk>\d+)/$', views.movie_detail, name='detail'),
     url(r'^movies/add$', views.movie_add, name='add'),
-    url(r'^search/', views.search, name='search'),
+    #url(r'^search/', views.search, name='search'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\
   + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

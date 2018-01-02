@@ -25,7 +25,7 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				{% for review in movie.reviews.all %}
+				{% for review in movie.reviews.aceptado %}
 					<div class="row">
 						<small>"{{ review.title }}" by {{ review.user }}</small>
 					</div>
