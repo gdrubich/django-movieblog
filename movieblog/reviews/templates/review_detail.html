@@ -1,0 +1,17 @@
+{ extends 'base.html'}
+{% block content %}
+<div class="container" style='padding-top: 4rem;'>
+		<div class="row no-gutter">
+			<div class="page-header">
+				<p class="sanserif"><h1>{{ review.title }}</h1>
+				<small>Average Review Rating: {{ avg_rating }}</small>
+				</p>
+				<p>Description: {{ review.description }}</p>
+				<p>Rating: {{ review.rating }}</p>
+				<p>Director: {{ movie.state }}</p>
+				{% if user.is_staff %}
+				<form method="get" action=".">
+			        <input type="submit" value="Cambiar estado">
+        		</form>
+			</div>
+{% endblock %}
