@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
-from movies import views
+from movies import views as movieviews
 
 
 urlpatterns = [
@@ -26,6 +26,7 @@ urlpatterns = [
                               namespace='ratings', app_name='ratings')),
     url(r'bootstrap/', TemplateView.as_view(template_name='bootstrap/example.html')),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^movies/', views.movie_list, name='movies_list'),
+    url(r'^movies/', movieviews.movie_list, name='movies_list'),
+    url(r'^reviews/', include('reviews.urls', namespace='reviews')),
     url(r'^search/', include('haystack.urls')),
 ]

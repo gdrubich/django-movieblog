@@ -27,7 +27,7 @@
 			<div class="col">
 				{% for review in movie.reviews.aceptado %}
 					<div class="row">
-						<small>"{{ review.title }}" by {{ review.user }}</small>
+						<p> <a href="{% url 'reviews:detail' review.pk %}"><small>"{{ review.title }}" </a>  by {{ review.user }}</small> </p>
 					</div>
 				{% endfor %}
 			</div>

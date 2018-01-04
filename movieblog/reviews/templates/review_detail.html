@@ -1,4 +1,4 @@
-{ extends 'base.html'}
+{% extends 'base.html' %}
 {% block content %}
 <div class="container" style='padding-top: 4rem;'>
 		<div class="row no-gutter">
@@ -8,10 +8,22 @@
 				</p>
 				<p>Description: {{ review.description }}</p>
 				<p>Rating: {{ review.rating }}</p>
-				<p>Director: {{ movie.state }}</p>
 				{% if user.is_staff %}
-				<form method="get" action=".">
-			        <input type="submit" value="Cambiar estado">
-        		</form>
+				<p>Estado: {{ review.get_state_display }}</p>
+				<div class="row no-gutter">		
+					<form method="POST" action=".">
+						{% csrf_token %}
+						<div>
+				         	<label class="radio-inline"><input type="radio" name="state" value="ok"> Aceptado: </label> 
+				        	<label class="radio-inline"><input type="radio" name="state" value="notok"> Rechazado: </label> 
+				        </div>
+				        <input type="submit" value="Modificar estado">
+				    </form>
+				</div>
+				{% else %}
+					<p>{{ error }}</p>
+				{% endif %}
 			</div>
+		</div>
+</div>
 {% endblock %}
