@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
-from movies.models import Movie
+from django.urls import reverse
 
 
 class ReviewQuerySet(models.QuerySet):
@@ -41,3 +41,6 @@ class Review(models.Model):
     rating = models.IntegerField(choices=STAR_RATINGS)
     state = models.CharField(choices=STATES, default='mod', max_length=100)
     states = ReviewQuerySet.as_manager()
+
+    def get_absolute_url(self):
+        return reverse('reviews:detail', args=(self.pk,))

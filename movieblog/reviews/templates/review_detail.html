@@ -3,15 +3,15 @@
 <div class="container" style='padding-top: 4rem;'>
 		<div class="row no-gutter">
 			<div class="page-header">
-				<p class="sanserif"><h1>{{ review.title }}</h1>
+				<p class="sanserif"><h1 id="titulo_review">{{ review.title }}</h1>
 				<small>Average Review Rating: {{ avg_rating }}</small>
 				</p>
 				<p>Description: {{ review.description }}</p>
 				<p>Rating: {{ review.rating }}</p>
 				{% if user.is_staff %}
-				<p>Estado: {{ review.get_state_display }}</p>
+				<p>Estado: <span id="review_state">{{ review.get_state_display }}</span></p>
 				<div class="row no-gutter">		
-					<form method="POST" action=".">
+					<form method="POST" action="{% url 'reviews:detail' review.pk %}" id="state_form">
 						{% csrf_token %}
 						<div>
 				         	<label class="radio-inline"><input type="radio" name="state" value="ok"> Aceptado: </label> 
@@ -26,4 +26,28 @@
 			</div>
 		</div>
 </div>
+{% endblock %}
+{% block javascript %}
+	<script>
+		$(function() {
+			$("#state_form").on("submit", function(event) {
+				event.preventDefault();
+			  	$.ajax({
+	            	url: $(this).attr('action'),
+	              	type: $(this).attr('method'),
+	              	data: $(this).serialize(),
+	              	success: function(response) {
+	              		if (response.error) {
+	              			alert(response.error);
+	              		} else {
+	              			$('#review_state').text(response.state);
+	              		}
+	              	},
+	              	error: function(){
+	                	alert('Error!')
+	              	}
+	          	});
+			});
+		});
+	</script>
 {% endblock %}

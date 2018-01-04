@@ -25,9 +25,9 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				{% for review in movie.reviews.aceptado %}
+				{% for review in reviews %}
 					<div class="row">
-						<p> <a href="{% url 'reviews:detail' review.pk %}"><small>"{{ review.title }}" </a>  by {{ review.user }}</small> </p>
+						<p> <a href="{{ review.get_absolute_url }}"><small>"{{ review.title }}" </a>  by {{ review.user }}</small> </p>
 					</div>
 				{% endfor %}
 			</div>

@@ -17,6 +17,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 from movies import views as movieviews
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -29,4 +31,5 @@ urlpatterns = [
     url(r'^movies/', movieviews.movie_list, name='movies_list'),
     url(r'^reviews/', include('reviews.urls', namespace='reviews')),
     url(r'^search/', include('haystack.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\
+  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

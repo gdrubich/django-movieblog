@@ -5,7 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
 from django.db.models import Avg
-
+from django.urls import reverse
 
 # A function that returns a created path to a movie cover
 
@@ -25,14 +25,17 @@ class Movie(models.Model):
     cover_img = models.ImageField(
         upload_to=cover_upload_path, default='/covers/default_cover.jpeg', null=True)
 
+    class Meta:
+        ordering = ['-release_date']
+
     def __unicode__(self):
         return "%s" % (self.title)
 
     def avg_rating(self):
         return self.reviews.all().aggregate(Avg('rating')).get('rating__avg', None)
 
-    class Meta:
-        ordering = ['-release_date']
+    def get_absolute_url(self):
+        return reverse('movies:detail', args=(self.pk,))
 
 
 class Person(models.Model):

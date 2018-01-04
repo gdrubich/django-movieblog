@@ -24,6 +24,7 @@ def movie_detail(request, movie_pk):
     error = ''
     recommendations = Movie.objects.filter(
         category=movie.category).exclude(pk=movie_pk)
+
     if request.method == 'POST':
         review_form = ReviewForm(request.POST)
 
@@ -42,8 +43,13 @@ def movie_detail(request, movie_pk):
 
     avg_rating = Movie.avg_rating(movie)
 
+    if request.user.is_staff:
+        reviews = movie.reviews.a_moderar()
+    else:
+        reviews = movie.reviews.aceptado()
+
     context = {'movie': movie, 'review_form': review_form,
-               'error': error, 'avg_rating': avg_rating, 'recommendations': recommendations}
+               'error': error, 'avg_rating': avg_rating, 'recommendations': recommendations, 'reviews': reviews}
     return render(request, 'movie_detail.html', context)
 
 
