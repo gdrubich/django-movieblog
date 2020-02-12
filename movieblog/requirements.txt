@@ -1,6 +1,6 @@
 certifi==2017.11.5
 chardet==3.0.4
-Django==1.11
+Django==1.11.28
 django-allauth==0.34.0
 django-bootstrap3==9.1.0
 django-braces==1.12.0
